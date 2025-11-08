@@ -56,6 +56,45 @@
             border-radius: 5px; font-size: 16px;
         }
         
+        .settings-btn {
+            background-color: #6c757d; 
+            width: 90%;
+            margin: 10px auto;
+        }
+        /* (جديد) زر إعادة الضبط */
+        .settings-btn.reset {
+            background-color: #dc3545; /* أحمر */
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        .audio-upload-section {
+            text-align: right;
+            width: 90%;
+            margin: 0 auto 15px auto;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .audio-upload-section label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .audio-upload-section input[type="file"] {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            width: 100%;
+        }
+        #setup-screen hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 15px auto;
+            width: 90%;
+        }
+        
         .time-label {
             text-align: right;
             width: 90%;
@@ -82,8 +121,6 @@
             border: none; border-radius: 5px; cursor: pointer;
             font-size: 16px; margin-top: 10px;
         }
-        
-        /* === (جديد) أزرار التعديل === */
         #save-edit-btn {
             background-color: #28a745;
         }
@@ -121,7 +158,6 @@
             font-size: 14px; 
         }
         
-        /* === (جديد) حاوية أزرار القائمة === */
         .queue-item-buttons {
             display: flex;
             gap: 5px;
@@ -148,9 +184,12 @@
             font-size: 12px;
         }
 
+        #countdown-screen, #call-screen, #in-call-screen {
+            background: linear-gradient(to bottom, #263238, #212121);
+            padding: 40px 10px 0 10px;
+        }
         
         #countdown-screen {
-            background-color: #000; 
             display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
         }
@@ -169,9 +208,8 @@
         }
         
         #call-screen {
-            background: linear-gradient(to bottom, #263238, #212121);
             display: flex; flex-direction: column;
-            justify-content: space-between; padding: 40px 15px; 
+            justify-content: space-between; padding-bottom: 40px; 
         }
         .caller-info { 
             text-align: center; 
@@ -199,11 +237,9 @@
         .answer { background-color: #00c853; }
 
         #in-call-screen {
-            background: linear-gradient(to bottom, #263238, #212121);
             display: flex;
             flex-direction: column;
             justify-content: flex-start; 
-            padding: 40px 10px 0 10px; 
         }
         
         #call-timer {
@@ -218,12 +254,9 @@
             backdrop-filter: blur(20px); 
             -webkit-backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
-            
             border-radius: 20px; 
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-            
             padding: 30px 20px; 
-            
             margin-top: auto; 
             margin-bottom: 140px; 
         }
@@ -327,6 +360,56 @@
             margin-top: 20px;
         }
         
+        #call-log-screen {
+            background: white;
+            color: black;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+        #call-log-screen h3 {
+            text-align: center;
+            margin-top: 0;
+        }
+        #new-call-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        #call-log-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #call-log-list li {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: right;
+        }
+        #call-log-list .log-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #call-log-list .log-details {
+            font-size: 14px;
+            color: #555;
+            display: block; 
+            margin-top: 4px;
+        }
+        #call-log-list .log-status-rejected {
+            color: #dc3545; 
+        }
+        #call-log-list .log-status-answered {
+            color: #28a745; 
+        }
+        
     </style>
 </head>
 <body>
@@ -334,6 +417,23 @@
     <div class="phone-container">
         <div id="setup-screen" class="screen">
             <h3>إعدادات الاتصال الوهمي</h3>
+            
+            <button id="show-upload-btn" class="settings-btn">تخصيص الأصوات</button>
+
+            <div id="audio-upload-section" class="audio-upload-section hidden">
+                <label for="ringtone-upload">1. تغيير نغمة الرنين:</label>
+                <input type="file" id="ringtone-upload" accept="audio/*">
+                
+                <label for="hello-upload">2. تغيير صوت الرد (بعد 3 ث):</label>
+                <input type="file" id="hello-upload" accept="audio/*">
+                
+                <label for="video-upload">3. تغيير الصوت الثاني (بعد 9 ث):</label>
+                <input type="file" id="video-upload" accept="audio/*">
+                
+                <button id="reset-audio-btn" class="settings-btn reset">إعادة ضبط الأصوات الافتراضية</button>
+            </div>
+            <hr>
+            
             <input type="text" id="caller-name-input" placeholder="أدخل اسم المتصل">
             <input type="text" id="caller-number-input" placeholder="أدخل رقم المتصل">
             
@@ -376,38 +476,18 @@
         <div id="in-call-screen" class="screen hidden">
             <div class="caller-info">
                 <h2 id="in-call-name">اسم المتصل</h2>
+                <p id="in-call-number"></p>
                 <p id="call-timer">00:00</p>
             </div>
-
             <div id="in-call-controls-container">
-                
                 <div id="in-call-grid">
-                    <button id="bluetooth-btn" class="grid-btn">
-                        <i class="fab fa-bluetooth-b"></i>
-                        <span>البلوتوث</span>
-                    </button>
-                    <button id="hold-btn" class="grid-btn"> 
-                        <i class="fas fa-pause"></i>
-                        <span>تعليق المكالمة</span>
-                    </button>
-                    <button id="add-call-btn" class="grid-btn">
-                        <i class="fas fa-plus"></i>
-                        <span>إضافة مكالمة</span>
-                    </button>
-                    <button id="keypad-btn" class="grid-btn">
-                        <i class="fas fa-th"></i>
-                        <span>لوحة المفاتيح</span>
-                    </button>
-                    <button id="mute-btn" class="grid-btn">
-                        <i class="fas fa-microphone-slash"></i>
-                        <span>كتم</span>
-                    </button>
-                    <button id="speaker-btn" class="grid-btn">
-                        <i class="fas fa-volume-up"></i>
-                        <span>مكبر الصوت</span>
-                    </button>
+                    <button id="bluetooth-btn" class="grid-btn"><i class="fab fa-bluetooth-b"></i><span>البلوتوث</span></button>
+                    <button id="hold-btn" class="grid-btn"><i class="fas fa-pause"></i><span>تعليق المكالمة</span></button>
+                    <button id="add-call-btn" class="grid-btn"><i class="fas fa-plus"></i><span>إضافة مكالمة</span></button>
+                    <button id="keypad-btn" class="grid-btn"><i class="fas fa-th"></i><span>لوحة المفاتيح</span></button>
+                    <button id="mute-btn" class="grid-btn"><i class="fas fa-microphone-slash"></i><span>كتم</span></button>
+                    <button id="speaker-btn" class="grid-btn"><i class="fas fa-volume-up"></i><span>مكبر الصوت</span></button>
                 </div>
-                
                 <div id="keypad-screen" class="hidden">
                     <div id="keypad-display"></div>
                     <div class="keypad-grid">
@@ -426,15 +506,18 @@
                     </div>
                     <button id="hide-keypad-btn">إخفاء</button>
                 </div>
-                
                 <div class="end-call-container">
-                    <button id="end-call-btn-in-call" class="action-btn reject">
-                        <i class="fas fa-phone"></i>
-                    </button>
+                    <button id="end-call-btn-in-call" class="action-btn reject"><i class="fas fa-phone"></i></button>
                 </div>
             </div> 
-            
         </div>
+        
+        <div id="call-log-screen" class="screen hidden">
+            <h3>سجل المكالمات</h3>
+            <button id="new-call-btn">إجراء مكالمة جديدة</button>
+            <ul id="call-log-list"></ul>
+        </div>
+        
     </div> 
     
     <audio id="ringtone" src="sams.mp3" preload="auto" loop></audio>
@@ -443,7 +526,82 @@
     
     <script>
         // (JavaScript تم تعديله)
+        
+        const dbName = 'fakeCallAudioDB';
+        const storeName = 'audioFiles';
+        let db;
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 1);
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName);
+                    }
+                };
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    console.log("قاعدة البيانات فتحت بنجاح");
+                    resolve(db);
+                };
+                request.onerror = (event) => {
+                    console.error("خطأ في فتح قاعدة البيانات:", event.target.error);
+                    reject(event.target.error);
+                };
+            });
+        }
+        
+        function saveAudioToDB(key, file) {
+            if (!db) return;
+            const transaction = db.transaction([storeName], 'readwrite');
+            const store = transaction.objectStore(storeName);
+            store.put(file, key);
+        }
+
+        function loadAudioFromDB(key, audioEl) {
+            if (!db) return;
+            const transaction = db.transaction([storeName], 'readonly');
+            const store = transaction.objectStore(storeName);
+            const request = store.get(key);
+
+            request.onsuccess = (event) => {
+                const file = event.target.result;
+                if (file) {
+                    console.log("تم تحميل الصوت المحفوظ:", key);
+                    audioEl.src = URL.createObjectURL(file); 
+                } else {
+                    console.log("لم يتم العثور على صوت محفوظ:", key, "- سيتم استخدام الافتراضي.");
+                }
+            };
+        }
+
+        // (جديد) وظيفة حذف الأصوات
+        function deleteAudioFromDB(key) {
+            return new Promise((resolve, reject) => {
+                if (!db) {
+                    reject("Database not initialized");
+                    return;
+                }
+                const transaction = db.transaction([storeName], 'readwrite');
+                const store = transaction.objectStore(storeName);
+                const request = store.delete(key);
+                request.onsuccess = () => resolve();
+                request.onerror = (event) => reject(event.target.error);
+            });
+        }
+        
+        async function loadAllSavedAudio() {
+            await initDB();
+            loadAudioFromDB('ringtone', ringtone);
+            loadAudioFromDB('helloVoice', helloVoice);
+            loadAudioFromDB('videoSound', videoSound);
+        }
+        
+        
+        // --- باقي متغيرات الجافاسكريبت ---
         let callQueue = []; 
+        let callHistory = []; 
         let countdownInterval;
         let callTimerInterval;
         let isMuted = false; 
@@ -453,18 +611,15 @@
         let helloTimeout;
         let videoTimeout;
         let vibrationInterval;
-        
         let helloVoiceStarted = false;
         let videoSoundStarted = false;
-        
-        let editIndex = -1; // (جديد) لتتبع العنصر قيد التعديل
+        let editIndex = -1; 
         
         const setupScreen = document.getElementById('setup-screen');
         const countdownScreen = document.getElementById('countdown-screen');
         const callScreen = document.getElementById('call-screen');
         const inCallScreen = document.getElementById('in-call-screen');
-        
-        // --- عناصر الإعدادات (تم تحديثها) ---
+        const callLogScreen = document.getElementById('call-log-screen'); 
         const addToQueueBtn = document.getElementById('add-to-queue-btn');
         const startQueueBtn = document.getElementById('start-queue-btn');
         const callQueueList = document.getElementById('call-queue-list');
@@ -473,20 +628,20 @@
         const timeInputHours = document.getElementById('time-hours');
         const timeInputMinutes = document.getElementById('time-minutes');
         const timeInputSeconds = document.getElementById('time-seconds');
-        
-        // (جديد) جلب أزرار التعديل
         const saveEditBtn = document.getElementById('save-edit-btn');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
-        
         const countdownTimer = document.getElementById('countdown-timer');
         const callerName = document.getElementById('caller-name');
         const callerNumber = document.getElementById('caller-number');
         const answerBtn = document.getElementById('answer-btn');
         const rejectBtn = document.getElementById('reject-btn');
         const inCallName = document.getElementById('in-call-name');
+        const inCallNumber = document.getElementById('in-call-number'); 
         const callTimerElement = document.getElementById('call-timer');
         const endCallBtnInCall = document.getElementById('end-call-btn-in-call');
         const cancelCountdownBtn = document.getElementById('cancel-countdown-btn'); 
+        const newCallBtn = document.getElementById('new-call-btn');
+        const callLogList = document.getElementById('call-log-list');
         const inCallGrid = document.getElementById('in-call-grid');
         const keypadBtn = document.getElementById('keypad-btn');
         const keypadScreen = document.getElementById('keypad-screen');
@@ -501,12 +656,76 @@
         const ringtone = document.getElementById('ringtone');
         const helloVoice = document.getElementById('helloVoice');
         const videoSound = document.getElementById('videoSound'); 
+        
+        const showUploadBtn = document.getElementById('show-upload-btn');
+        const audioUploadSection = document.getElementById('audio-upload-section');
+        const ringtoneUpload = document.getElementById('ringtone-upload');
+        const helloUpload = document.getElementById('hello-upload');
+        const videoUpload = document.getElementById('video-upload');
+        const resetAudioBtn = document.getElementById('reset-audio-btn'); // (جديد)
+
+        // (جديد) ربط زر تخصيص الأصوات (للتشغيل/الإيقاف)
+        showUploadBtn.addEventListener('click', () => {
+            const isHidden = audioUploadSection.classList.contains('hidden');
+            if (isHidden) {
+                audioUploadSection.classList.remove('hidden');
+                showUploadBtn.textContent = "إخفاء إعدادات الصوت";
+            } else {
+                audioUploadSection.classList.add('hidden');
+                showUploadBtn.textContent = "تخصيص الأصوات";
+            }
+        });
+
+        // (جديد) ربط زر إعادة الضبط
+        resetAudioBtn.addEventListener('click', async () => {
+            if (!confirm("هل أنت متأكد؟ سيتم حذف جميع الأصوات المخصصة والعودة إلى الأصوات الافتراضية.")) {
+                return;
+            }
+            try {
+                await deleteAudioFromDB('ringtone');
+                await deleteAudioFromDB('helloVoice');
+                await deleteAudioFromDB('videoSound');
+                alert("تمت إعادة الضبط! سيتم تحديث الصفحة.");
+                location.reload(); 
+            } catch (error) {
+                console.error("خطأ أثناء حذف الأصوات:", error);
+                alert("حدث خطأ أثناء إعادة الضبط.");
+            }
+        });
+
+
+        ringtoneUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                ringtone.src = URL.createObjectURL(file);
+                saveAudioToDB('ringtone', file); 
+            }
+        });
+        
+        helloUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                helloVoice.src = URL.createObjectURL(file);
+                saveAudioToDB('helloVoice', file); 
+            }
+        });
+        
+        videoUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                videoSound.src = URL.createObjectURL(file);
+                saveAudioToDB('videoSound', file); 
+            }
+        });
+        
 
         function showScreen(screenToShow) {
             document.getElementById('setup-screen').classList.add('hidden');
             document.getElementById('countdown-screen').classList.add('hidden');
             document.getElementById('call-screen').classList.add('hidden');
             document.getElementById('in-call-screen').classList.add('hidden');
+            document.getElementById('call-log-screen').classList.add('hidden'); 
+            
             screenToShow.classList.remove('hidden');
         }
 
@@ -522,14 +741,12 @@
             return parts.join(' و ');
         }
         
-        // --- (جديد) وظائف مساعدة لإدارة الحقول والوقت ---
-        
         function getTotalTimeFromInputs() {
             const hours = parseInt(timeInputHours.value) || 0;
             const minutes = parseInt(timeInputMinutes.value) || 0;
             const seconds = parseInt(timeInputSeconds.value) || 0;
             const totalTimeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
-            return totalTimeInSeconds > 0 ? totalTimeInSeconds : 5; // وقت افتراضي 5 ثواني
+            return totalTimeInSeconds > 0 ? totalTimeInSeconds : 5; 
         }
         
         function setInputsFromTime(totalSeconds) {
@@ -550,18 +767,12 @@
             timeInputSeconds.value = "";
         }
         
-        // --- (جديد) وظائف وضع التعديل ---
-        
         function enterEditMode(index) {
             editIndex = index;
             const call = callQueue[index];
-
-            // 1. ملء الحقول
             nameInput.value = call.name;
             numberInput.value = call.number;
             setInputsFromTime(call.time);
-
-            // 2. تبديل الأزرار
             addToQueueBtn.classList.add('hidden');
             startQueueBtn.classList.add('hidden');
             saveEditBtn.classList.remove('hidden');
@@ -571,8 +782,6 @@
         function exitEditMode() {
             editIndex = -1;
             clearInputFields();
-            
-            // 2. تبديل الأزرار
             addToQueueBtn.classList.remove('hidden');
             if (callQueue.length > 0) {
                 startQueueBtn.classList.remove('hidden');
@@ -581,8 +790,6 @@
             cancelEditBtn.classList.add('hidden');
         }
         
-        // --- ربط الأزرار ---
-
         addToQueueBtn.addEventListener('click', () => {
             const newCall = {
                 name: nameInput.value || "اسم المتصل",
@@ -595,18 +802,14 @@
             startQueueBtn.classList.remove('hidden');
         });
         
-        // (جديد) ربط أزرار التعديل
         saveEditBtn.addEventListener('click', () => {
-            if (editIndex === -1) return; // حماية
-
+            if (editIndex === -1) return; 
             const updatedCall = {
                 name: nameInput.value || "اسم المتصل",
                 number: numberInput.value || "012-345-6789",
                 time: getTotalTimeFromInputs()
             };
-            
-            callQueue[editIndex] = updatedCall; // استبدال العنصر القديم
-            
+            callQueue[editIndex] = updatedCall; 
             updateQueueUI();
             exitEditMode();
         });
@@ -615,12 +818,10 @@
             exitEditMode();
         });
 
-
-        // (تم تعديلها) تحديث واجهة القائمة لإضافة زر التعديل
         function updateQueueUI() {
             callQueueList.innerHTML = ""; 
             
-            if (callQueue.length === 0 && editIndex === -1) { // لا تخفي الزر إذا كنا في وضع التعديل
+            if (callQueue.length === 0 && editIndex === -1) { 
                 startQueueBtn.classList.add('hidden'); 
             }
             
@@ -637,7 +838,6 @@
             });
         }
 
-        // (تم تعديلها) ربط قائمة المكالمات (للحذف والتعديل)
         callQueueList.addEventListener('click', (e) => {
             if (e.target.closest('.remove-from-queue-btn')) {
                 const indexToRemove = parseInt(e.target.closest('.remove-from-queue-btn').getAttribute('data-index'));
@@ -660,10 +860,12 @@
                 callerName.textContent = nextCall.name;
                 callerNumber.textContent = nextCall.number;
                 inCallName.textContent = nextCall.name;
+                inCallNumber.textContent = nextCall.number; 
                 showScreen(countdownScreen);
                 startCountdown(nextCall.time);
             } else {
-                showScreen(setupScreen);
+                updateCallLogUI();
+                showScreen(callLogScreen);
             }
         }
         
@@ -695,6 +897,45 @@
             }
         }
         
+        function logCall(status, duration = "00:00") {
+            const name = callerName.textContent;
+            const number = callerNumber.textContent;
+            
+            callHistory.unshift({ 
+                name: name,
+                number: number,
+                status: status,
+                duration: duration
+            });
+        }
+        
+        function updateCallLogUI() {
+            callLogList.innerHTML = ""; 
+            
+            if (callHistory.length === 0) {
+                callLogList.innerHTML = "<li>لا توجد مكالمات في السجل.</li>";
+                return;
+            }
+            
+            callHistory.forEach(call => {
+                const li = document.createElement('li');
+                let details = "";
+                
+                if (call.status === "تم الرد") {
+                    details = `<span class="log-status-answered">(تم الرد - ${call.duration})</span>`;
+                } else {
+                    details = `<span class="log-status-rejected">(${call.status})</span>`;
+                }
+                
+                li.innerHTML = `
+                    <div class="log-name">${call.name}</div>
+                    <span class="log-details">${call.number} - ${details}</span>
+                `;
+                callLogList.appendChild(li);
+            });
+        }
+        
+        
         function stopFakeCall() {
             ringtone.pause();
             ringtone.currentTime = 0;
@@ -711,6 +952,7 @@
             clearTimeout(videoTimeout);
             
             callTimerElement.textContent = "00:00";
+            inCallNumber.textContent = ""; 
             
             keypadScreen.classList.add('hidden');
             inCallGrid.classList.remove('hidden'); 
@@ -771,17 +1013,24 @@
         });
 
         rejectBtn.addEventListener('click', () => {
+            logCall("تم الرفض"); 
             stopFakeCall();
         });
 
         endCallBtnInCall.addEventListener('click', () => {
+            logCall("تم الرد", callTimerElement.textContent); 
             stopFakeCall();
         });
         
         cancelCountdownBtn.addEventListener('click', () => {
+            logCall("تم الإلغاء"); 
             callQueue = []; 
             updateQueueUI(); 
             stopFakeCall(); 
+        });
+        
+        newCallBtn.addEventListener('click', () => {
+            showScreen(setupScreen);
         });
         
         keypadBtn.addEventListener('click', () => {
@@ -836,6 +1085,9 @@
         });
         
         addCallBtn.addEventListener('click', () => { /* لا يفعل شيئاً */ });
+        
+        // --- (جديد) تحميل الأصوات المحفوظة عند بدء التشغيل ---
+        loadAllSavedAudio();
         
         showScreen(setupScreen);
     </script>
